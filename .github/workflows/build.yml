@@ -6,16 +6,21 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
 
-      - name: Build x64 Release
-        run: msbuild oah.sln /p:Configuration=Release /p:Platform=x64
+      - name: Build Solution
+        run: msbuild oah.sln /p:Configuration=Release /p:Platform=x64 /p:RestorePackages=true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: oah-dll
-          path: x64/Release/oah.dll
+          path: |
+            x64/Release/*.dll
+            Release/*.dll
