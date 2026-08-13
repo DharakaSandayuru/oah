@@ -4,18 +4,20 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
+
+      - name: Setup DirectX SDK
+        run: |
+          choco install directx-sdk -y
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
 
       - name: Build Solution
-        run: msbuild oah.sln /p:Configuration=Release /p:Platform=x64 /p:RestorePackages=true
+        run: msbuild oah.sln /p:Configuration=Release /p:Platform=x64
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
