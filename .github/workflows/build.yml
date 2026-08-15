@@ -24,5 +24,5 @@ jobs:
         with:
           name: oah-dll
           path: |
-            x64/Release/*.dll
-            Release/*.dll
+            **/Release/*.dll
+            **/x64/Release/*.dll
